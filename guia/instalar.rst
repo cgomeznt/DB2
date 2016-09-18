@@ -63,7 +63,7 @@ Consideraciones sobre la instalación y la planificación
 --------------------------------------------------------
 Después de verificar que el sistema cumple los requisitos básicos, se debe planificar la instalación teniendo en cuenta los métodos de instalación y la creación de usuarios y grupos:
 
-Las opciones de instalación:
+Las opciones de instalación.
 - db2setup installation
 	- db2_install installation
 	- instalación por archivo de respuestas de DB2
