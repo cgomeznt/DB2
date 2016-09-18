@@ -64,6 +64,7 @@ Consideraciones sobre la instalación y la planificación
 Después de verificar que el sistema cumple los requisitos básicos, se debe planificar la instalación teniendo en cuenta los métodos de instalación y la creación de usuarios y grupos:
 
 Las opciones de instalación.
+
 - db2setup installation
 	- db2_install installation
 	- instalación por archivo de respuestas de DB2
@@ -181,7 +182,7 @@ Intentamos instalar.::
 	  Aborting the current installation ...
 	  Run installation with the option "-f sysreq" parameter to force the installation.
 
-Hay unos paquetes que no no importa que son de 32 bit y nuestro sistema es de 64 bit, por eso los omitimos, nos indica que no tenemos el service pack actualizado del CentOS lo omito por no tener en estos momentos salida al internet. volvemos a ejecutar el instalador con los parametros que el nos recomienda
+Hay unos paquetes que no no importa que son de 32 bit y nuestro sistema es de 64 bit, por eso los omitimos, nos indica que no tenemos el service pack actualizado del CentOS lo omito por no tener en estos momentos salida al internet. volvemos a ejecutar el instalador con los parametros que el nos recomienda.::
 
 	# ./db2setup -f sysreq
 	Requisito no cumplido para la base de datos DB2 "Server" . Versión: "11.1.0.0". 
