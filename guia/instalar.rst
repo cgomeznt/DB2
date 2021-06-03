@@ -96,26 +96,79 @@ DB2 requiere un mínimo de tres usuarios y grupos: un propietario instance, un u
 - Fenced user: db2fenc1 - Responsible for executing "fenced" user defined functions, such as JDFs and stored procedures
 - DAS user: dasusr1 - Administers the DB2 Administration Server
 
-Instalando DB2-Express-C 11.1
-+++++++++++++++++++++++++++++++
+Asegurar estos prerequisitos
++++++++++++++++++++++++++++
 
-Instalar los paquetes requeridos.::
+Configurar el nombre del HOST en el archivo /etc/hosts::
 
-	# yum --disablerepo=\* --enablerepo=c6-media groupinstall basic-desktop
-	# yum --disablerepo=\* --enablerepo=c6-media install compat-libstdc++-33
-	# yum --disablerepo=\* --enablerepo=c6-media search nfs-utils
+	# vi /etc/hosts
+	127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+	::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+	192.168.1.100	cdc01
 
-Este lo puedes instalar del repo, pero como el server no tenia acceso al internet lo descarguede http://rpm.pbone.net/index.php3/stat/3/srodzaj/1/search/numactl .::
+Conectar con ssh -X para tener disponible la configuracion grafica y tener la variable DISPLAY activa.
 
-	# rpm -ivh /tmp/numactl-2.0.9-2.el6.x86_64.rpm
+Instalando xorg-x11-server-Xorg.x86_64.::
 
-Conectar con ssh -X para tener disponible la configuracion grafica y tener la variable DISPLAY activa.::
-	
-	$ ssh -X root@nombre_del_servidor
+	# yum -y install xorg-x11-server-Xorg.x86_64
+
+Instalando xorg-x11-xauth.::
+
+	# yum install xorg-x11-xauth
+
+**Archivos de configuración**
+
+En el server debe tener estas lineas /etc/ssh/sshd_config::
+
+	X11Forwarding yes
+	X11DisplayOffset 10
+	X11UseLocalhost no
+
+En el cliente debe tener estas lineas ~/.ssh/config ::
+
+	Host *
+	  ForwardAgent yes
+	  ForwardX11 yes
+
+**Test ssh forward a las X**
+
+Nos conectamos al servidor con ssh y le pasamos el parámetro ".X" y debemos consultar la variable DISPLAY y el ssh debe fijarle el valor automaticamente.::
+ 
+	$ ssh -X root@192.168.1.21
+	root@192.168.1.21's password: 
+	Last login: Wed Oct  3 19:42:07 2018 from 192.168.1.4
+	/usr/bin/xauth:  file /root/.Xauthority does not exist
 	# echo $DISPLAY
 	localhost:10.0
 
-Debe estar configurado el locale en ingles para que no pida el paquete adicional de idiomas.::
+**Instalar unas aplicaciones X**
+
+Siempre es bueno tener alguna aplicación en X para hacer un test. Como siempre olvido cual es el paquete que la tiene xclock, pues.::
+
+	# yum provides '*/xclock'
+	Complementos cargados:fastestmirror
+	Loading mirror speeds from cached hostfile
+	 * base: mirror.uta.edu.ec
+	 * extras: mirror.uta.edu.ec
+	 * updates: mirror.uta.edu.ec
+	base/7/x86_64/filelists_db	| 6.9 MB  00:00:29     
+	extras/7/x86_64/filelists_db	| 603 kB  00:00:02     
+	updates/7/x86_64/filelists_db	| 3.2 MB  00:00:15     
+	xorg-x11-apps-7.7-7.el7.x86_64 : X.Org X11 applications
+	Repositorio        : base
+	Resultado obtenido desde:
+	Nombre del archivo    : /usr/bin/xclock
+
+Instalamos el paquete que descubrimos que tiene xclock.::
+
+	# yum install xorg-x11-apps-7.7-7.el7.x86_64
+
+Ahora desde el servidor ejecutamos el xclock y debemos ver este aplicativo en nuestras X.::
+
+	# xclock
+
+
+Debe estar **configurado el locale** en ingles para que no pida el paquete adicional de idiomas.::
 
 	# export LANG=en_US.utf8 LC_ALL=en_US.utf8
 
@@ -134,6 +187,21 @@ Debe estar configurado el locale en ingles para que no pida el paquete adicional
 	LC_MEASUREMENT="en_US.utf8"
 	LC_IDENTIFICATION="en_US.utf8"
 	LC_ALL=en_US.utf8
+
+Instalando DB2-Express-C 11.1
++++++++++++++++++++++++++++++++
+
+Instalar los paquetes requeridos.::
+
+	# yum --disablerepo=\* --enablerepo=c6-media groupinstall basic-desktop
+	# yum --disablerepo=\* --enablerepo=c6-media install compat-libstdc++-33 libXtst
+	# yum --disablerepo=\* --enablerepo=c6-media search nfs-utils
+
+Este lo puedes instalar del repo, pero como el server no tenia acceso al internet lo descarguede http://rpm.pbone.net/index.php3/stat/3/srodzaj/1/search/numactl .::
+
+	# rpm -ivh /tmp/numactl-2.0.9-2.el6.x86_64.rpm
+
+
 
 Podemos crear los grupos de una vez o simplemente lo hacemos con el instalador.::
 
