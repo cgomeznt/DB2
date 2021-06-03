@@ -104,7 +104,7 @@ Configurar el nombre del HOST en el archivo /etc/hosts::
 	# vi /etc/hosts
 	127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 	::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-	192.168.1.100	cdc01
+	192.168.1.21	cdc01
 
 Conectar con ssh -X para tener disponible la configuracion grafica y tener la variable DISPLAY activa.
 
@@ -298,7 +298,7 @@ Despues de instalado vemos los servicios.::
 
 Iniciar con el usuario que administrara la instancia.::
 
-	# su db2inst1
+	# su - db2inst1
 	$ pwd
 	/home/db2inst1
 
