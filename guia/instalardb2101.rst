@@ -235,6 +235,33 @@ Consultamos que DB2 este escuchando por su puerto que es el 5000.::
 	tcp        0      0 0.0.0.0:50000           0.0.0.0:*               LISTEN      38981/db2sysc  
 
 
+Si les genera errores de **logarchmeth1 LOGRETAIN**, **LOG_DDL_STMTS** o **DFT_SCHEMAS_DCC**::
+
+	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using logarchmeth1 LOGRETAIN"
+	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
+
+	SQL1363W  Database must be deactivated and reactivated before the changes to
+	one or more of the configuration parameters will be effective.
+
+	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using LOG_DDL_STMTS YES"
+	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
+
+	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using DFT_SCHEMAS_DCC YES"
+	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
+
+Si no permite continuar porque esta pendiente un backup::
+
+	$ db2 "backup db TABLE01 to /db2home/db2inst2/backupdb"
+	Backup successful. The timestamp for this backup image is : 20210603102922
+
+	$ ls backupdb/
+	SOURCE.0.db2inst2.DBPART000.20210603102922.001
+
+Esto es para listar tablas o vistas::
+
+	$ db2 list tables for schema TABLA01
+
+
 
 
 
