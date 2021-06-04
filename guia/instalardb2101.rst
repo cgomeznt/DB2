@@ -1,4 +1,4 @@
-Instalar Access Server
+Instalar DB2-Express 10.1
 ========================
 
 Vamos a instalar el manejador de Base de Datos de IBM DB2 10.1 express...!!! Lo primero que debemos hacer es iniciar en nuestro servidor con ssh -X para que tengamos el Forwarding de las X11::
@@ -234,6 +234,10 @@ Consultamos que DB2 este escuchando por su puerto que es el 5000.::
 	 will not be shown, you would have to be root to see it all.)
 	tcp        0      0 0.0.0.0:50000           0.0.0.0:*               LISTEN      38981/db2sysc  
 
+
+
+Tips
+++++++++
 
 Si les genera errores de **logarchmeth1 LOGRETAIN**, **LOG_DDL_STMTS** o **DFT_SCHEMAS_DCC**::
 
