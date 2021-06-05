@@ -236,16 +236,11 @@ Consultamos que DB2 este escuchando por su puerto que es el 5000.::
 
 
 
-Tips
-++++++++
 
-Si les genera errores de **logarchmeth1 LOGRETAIN**, **LOG_DDL_STMTS** o **DFT_SCHEMAS_DCC**::
+Debes ejecutar estos comandos para que en que no genera errores de **logarchmeth1 LOGRETAIN**, **LOG_DDL_STMTS** o **DFT_SCHEMAS_DCC**::
 
 	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using logarchmeth1 LOGRETAIN"
 	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
-
-	SQL1363W  Database must be deactivated and reactivated before the changes to
-	one or more of the configuration parameters will be effective.
 
 	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using LOG_DDL_STMTS YES"
 	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
@@ -253,9 +248,12 @@ Si les genera errores de **logarchmeth1 LOGRETAIN**, **LOG_DDL_STMTS** o **DFT_S
 	[db2inst3@db2 ~]$ db2 "update db cfg for TEST_DB2 using DFT_SCHEMAS_DCC YES"
 	DB20000I  The UPDATE DATABASE CONFIGURATION command completed successfully.
 
-Si no permite continuar porque esta pendiente un backup::
 
-	$ db2 "backup db TABLE01 to /db2home/db2inst2/backupdb"
+Quedara pendiente un backup y debemos hacerlo porque sino encontraras este error (annot be made because of BACKUP PENDING.  SQLSTATE=57019)::
+
+	$ mkdir /db2home/db2iadm1/backup
+
+	$ db2 "backup db TEST_DB2 to /db2home/db2iadm1/backup"
 	Backup successful. The timestamp for this backup image is : 20210603102922
 
 	$ ls backupdb/
@@ -263,8 +261,13 @@ Si no permite continuar porque esta pendiente un backup::
 
 Esto es para listar tablas o vistas::
 
-	$ db2 list tables for schema TABLA01
+	$ db2 connect to TEST_DB2
 
+	$ db2 list tables for schema TEST_DB2
+
+	Table/View                      Schema          Type  Creation time             
+	------------------------------- --------------- ----- --------------------------
+	TABLE01                         TEST_DB2        T     2021-06-04-15.25.12.933951
 
 
 
